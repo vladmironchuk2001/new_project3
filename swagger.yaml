@@ -1,0 +1,155 @@
+swagger: "2.0"
+info:
+  version: "0.0.5"
+  title: FP_Rating
+# during dev, should point to your local machine
+host: localhost:10011
+# basePath prefixes all resource paths 
+basePath: /api/v1
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /rating/list:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: rating
+    get:
+      description: List of user's projects
+      # used as the method name of the controller
+      operationId: RatingList
+      parameters:
+        - name: userId
+          in: query
+          description: User's projects to filter out
+          required: false
+          type: string
+        - name: projectType
+          in: query
+          description: Type of the project
+          required: false
+          type: string  
+        - name: projectName
+          in: query
+          description: Name of project
+          required: false
+          type: string   
+        - name: page
+          in: query
+          description: Page to iterate, 1 is default
+          required: false
+          type: number             
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+                $ref: "#/definitions/Name of project"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+  /rating/types:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: rating
+    get:
+      description: List of project types to choose
+      # used as the method name of the controller
+      operationId: projectTypes
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+                $ref: "#/definitions/ProjectType"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /rating/users:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: rating
+    get:
+      description: List of users
+      # used as the method name of the controller
+      operationId: listUsers
+      parameters:
+        - name: user
+          in: query
+          description: The username for filtering
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: array
+            items:
+                $ref: "#/definitions/UserList"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  UserList:
+    required:
+      - user
+    properties:
+      user:
+        type: string
+      id:
+        type: string
+      photo:
+        type: string
+      ProjectName:
+        type: array
+        description: List of user's projects
+        items:
+          type: string
+  Ratinglist:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      projectType:
+        type: string
+      ProjectName:
+        type: string
+      publication_time:
+        type: string
+      
+       
+  ProjectType:
+    required:
+      - id
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+        
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string

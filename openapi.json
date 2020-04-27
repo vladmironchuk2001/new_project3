@@ -1,0 +1,215 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "FP_Rating",
+    "version" : "0.0.4"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:10011/api/v1"
+  }, {
+    "url" : "https://localhost:10011/api/v1"
+  } ],
+  "paths" : {
+    "/rating/list" : {
+      "get" : {
+        "description" : "List of user's projects",
+        "operationId" : "RatingList",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "query",
+          "description" : "User's projects to filter out",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "projectType",
+          "in" : "query",
+          "description" : "Type of the project",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "projectName",
+          "in" : "query",
+          "description" : "Name of project",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Page to iterate, 1 is default",
+          "schema" : {
+            "type" : "number"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Name of project"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "rating"
+    },
+    "/rating/types" : {
+      "get" : {
+        "description" : "List of project types to choose",
+        "operationId" : "projectTypes",
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ProjectType"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "rating"
+    },
+    "/rating/users" : {
+      "get" : {
+        "description" : "List of users",
+        "operationId" : "listUsers",
+        "parameters" : [ {
+          "name" : "user",
+          "in" : "query",
+          "description" : "The username for filtering",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/UserList"
+                  }
+                }
+              }
+            }
+          },
+          "default" : {
+            "description" : "Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "x-swagger-router-controller" : "rating"
+    },
+    "/swagger" : {
+      "x-swagger-pipe" : "swagger_raw"
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "TeaSpot" : {
+        "required" : [ "user" ],
+        "type" : "object",
+        "properties" : {
+          "user" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "photo" : {
+            "type" : "string"
+          },
+          "ProjectName" : {
+            "type" : "array",
+            "description" : "List of user's projects",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      " Ratinglist" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "projectType" : {
+            "type" : "string"
+          },
+          "ProjectName" : {
+            "type" : "string"
+          },
+          "publication_time" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ProjectType" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorResponse" : {
+        "required" : [ "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}
